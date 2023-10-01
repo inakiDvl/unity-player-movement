@@ -120,20 +120,6 @@ public class PlayerStateManager : MonoBehaviour
             ChangeState(playerJumpState);
         }
     }
-
-    /* private void OnRunPressed()
-    {
-        if (currentState == playerWalkState) {
-            isRunPressed = true;
-        }   
-    }
-
-    private void OnRunReleased()
-    {
-        if (currentState == playerRunState) {
-            isRunPressed = false;
-        }
-    } */
     
     public bool IsTryingToMove()
     {
