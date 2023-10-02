@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWalkState : PlayerBaseState
+public class PlayerWalkState : PlayerGroundedBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        //Debug.Log("entered walk state");
+        player.speed = player.walkSpeed;
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
         if (!player.IsTryingToMove()) {
             player.ChangeState(player.playerIdleState);
+        } else if (player.isRunPressed) {
+            player.ChangeState(player.playerRunState);
         } else {
             player.ApplyRotation();
             player.SetMoveDirection();
@@ -23,6 +25,6 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void ExitState(PlayerStateManager player)
     {
-        //Debug.Log("exited walk state");
+        base.ExitState(player);
     }
 }

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerBaseState
+public class PlayerIdleState : PlayerGroundedBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        //Debug.Log("entered idle state");
+        player.speed = 0;
     }
 
     public override void UpdateState(PlayerStateManager player)

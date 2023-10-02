@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRunState : PlayerBaseState
+public class PlayerRunState : PlayerGroundedBaseState
 {
     public override void EnterState(PlayerStateManager player)
     {
-        Debug.Log("entered run state");
+        player.speed = player.runSpeed;
     }
 
     public override void UpdateState(PlayerStateManager player)
     {
-        if (!player.isRunPressed || !player.IsTryingToMove()) {
+        if (!player.isRunPressed) {
             player.ChangeState(player.playerWalkState);
         } else {
             player.ApplyRotation();
             player.SetMoveDirection();          
             player.SetGravity();
-            player.ApplyMovement();
+            player.ApplyMovement(); 
         }
     }
 
     public override void ExitState(PlayerStateManager player)
     {
-        Debug.Log("exited run state");
+
     }
 }

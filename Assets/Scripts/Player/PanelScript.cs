@@ -17,10 +17,10 @@ public class PanelScript : MonoBehaviour
         } else if (playerStateManager.currentState == playerStateManager.playerWalkState) {
             imageElement.color = Color.green;
             textElement.text = "WALK";
-        } /* else if (playerStateManager.currentState == playerStateManager.playerRunState) {
+        } else if (playerStateManager.currentState == playerStateManager.playerRunState) {
             imageElement.color = Color.yellow;
             textElement.text = "RUN";
-        } */ else if (playerStateManager.currentState == playerStateManager.playerJumpState) {
+        } else if (playerStateManager.currentState == playerStateManager.playerJumpState) {
             imageElement.color = Color.blue;
             textElement.text = "JUMP";
         } else if (playerStateManager.currentState == playerStateManager.playerFallState) {

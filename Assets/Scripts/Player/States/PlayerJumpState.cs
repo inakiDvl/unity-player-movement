@@ -14,7 +14,7 @@ public class PlayerJumpState : PlayerBaseState
     public override void UpdateState(PlayerStateManager player)
     {
         player.ApplyMovement();
-         
+        
         if (player.velocity < 0) {
             player.ChangeState(player.playerFallState);
         } else {

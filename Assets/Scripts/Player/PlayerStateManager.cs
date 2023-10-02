@@ -9,14 +9,16 @@ public class PlayerStateManager : MonoBehaviour
     public PlayerBaseState currentState;
     public PlayerIdleState playerIdleState = new PlayerIdleState();
     public PlayerWalkState playerWalkState = new PlayerWalkState();
-    //public PlayerRunState playerRunState = new PlayerRunState();
+    public PlayerRunState playerRunState = new PlayerRunState();
     public PlayerJumpState playerJumpState = new PlayerJumpState();
     public PlayerFallState playerFallState = new PlayerFallState();
     #endregion
 
     #region     PLAYER VARIABLES
     //          player variables
-    private float speed = 5f;
+    public float speed;
+    public float walkSpeed = 5f;
+    public float runSpeed = 8f;
     private float jumpPower = 3f;
 
     //          gravity variables
@@ -29,7 +31,6 @@ public class PlayerStateManager : MonoBehaviour
     public Vector2 moveInput;
     public Vector3 moveDirection;
     private float rotationSpeed = 15f;
-    public bool isGrounded = false;
     public bool isRunPressed = false;
     #endregion
 
@@ -116,11 +117,23 @@ public class PlayerStateManager : MonoBehaviour
 
     private void OnJump()
     {
-        if (currentState != playerJumpState && IsGrounded()) {
+        if (currentState != playerJumpState && currentState is PlayerGroundedBaseState) {
             ChangeState(playerJumpState);
         }
     }
     
+    private void OnRunPressed() 
+    {
+        if (currentState != playerRunState) {
+            isRunPressed = true;
+        }
+    }
+
+    private void OnRunReleased()
+    {
+        isRunPressed = false;
+    }
+
     public bool IsTryingToMove()
     {
         if (moveDirection != Vector3.zero) {
