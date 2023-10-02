@@ -24,23 +24,27 @@ public class PlayerStateManager : MonoBehaviour
     //          gravity variables
     private float gravity = -9.81f;
     private float gravityMultiplayer = 3;
-    /* [SerializeField] private */ public float velocity;
+    public float velocity;
 
     //          movement variables
     public Camera playerCamera;
-    [SerializeField] private CharacterController characterController;
-    public Vector2 moveInput;
-    public Vector3 moveDirection;
-    public Vector3 moveDirectionRelativeToCamera;
+    public GameObject cameraPivot;
+    private CameraLogic cameraLogic;
+    public CharacterController characterController;
+    private Vector2 moveInput;
+    private Vector3 moveDirectionRelativeToCamera;
     private float rotationSpeed = 15f;
     public bool isRunPressed = false;
+
     #endregion
 
-    private void Awake() {  // when te player spawns vefore it reaches the ground velocity
-        velocity = gravity; // statck starting at 0, thats while u are able to jump              
-    }                       // between 0 and -9.81. To prevent this we do velocity = gravity
+    private void Awake() {  
+        cameraLogic = cameraPivot.GetComponent<CameraLogic>();                 
+    }                       
 
     private void Start() {
+        velocity = gravity;// to prevent jumping before velocity reaches gravity
+
         currentState = playerIdleState;
         currentState.EnterState(this);
     }
@@ -147,6 +151,11 @@ public class PlayerStateManager : MonoBehaviour
     private void OnRunReleased()
     {
         isRunPressed = false;
+    }
+
+    private void OnMoveCamera(InputValue inputValue)
+    {
+        cameraLogic.moveInput = inputValue.Get<Vector2>();
     }
 
     public bool IsTryingToMove()
