@@ -14,10 +14,10 @@ public class PlayerRunState : PlayerGroundedBaseState
         if (!player.isRunPressed) {
             player.ChangeState(player.playerWalkState);
         } else {
-            player.ApplyRotation();
-            player.SetMoveDirection();          
+            player.ApplyRotationRelativeToCamera();
+            player.SetMoveDirectionRelativeToCamera();          
             player.SetGravity();
-            player.ApplyMovement(); 
+            player.ApplyMovementRelativeToCamera(); 
         }
     }
 

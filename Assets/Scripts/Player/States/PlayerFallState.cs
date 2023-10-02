@@ -15,7 +15,7 @@ public class PlayerFallState : PlayerBaseState
             player.ChangeState(player.playerIdleState);
         } else {
             player.SetGravity();
-            player.ApplyMovement();
+            player.ApplyMovementRelativeToCamera();
         }
     }
 

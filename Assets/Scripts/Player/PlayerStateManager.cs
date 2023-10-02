@@ -67,12 +67,6 @@ public class PlayerStateManager : MonoBehaviour
     #endregion
 
     #region     MOVEMENT RELATED METHODS
-
-    public void ApplyMovement()
-    {
-        characterController.Move((moveDirection.normalized * speed + Vector3.up * velocity) * Time.deltaTime);
-    }
-
     public void ApplyMovementRelativeToCamera()
     {
         characterController.Move((moveDirectionRelativeToCamera.normalized * speed + Vector3.up * velocity) * Time.deltaTime);
@@ -92,23 +86,16 @@ public class PlayerStateManager : MonoBehaviour
         }
     }
 
-    public void ApplyRotation()
+    public void ApplyRotationRelativeToCamera()
     {
         Vector3 lookRotation;
-        lookRotation.x = moveDirection.x;
+        lookRotation.x = moveDirectionRelativeToCamera.x;
         lookRotation.y = 0.0f;
-        lookRotation.z = moveDirection.z;
+        lookRotation.z = moveDirectionRelativeToCamera.z;
         
         if (lookRotation != Vector3.zero) {
             Quaternion targetRotation = Quaternion.LookRotation(lookRotation);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-    }
-
-    public void SetMoveDirection() {
-        if (IsGrounded()) {
-            moveDirection.x = moveInput.x;
-            moveDirection.z = moveInput.y;
         }
     }
 
@@ -122,10 +109,6 @@ public class PlayerStateManager : MonoBehaviour
             // Remove the vertical component to move only in the horizontal plane
             forward.y = 0f;
             right.y = 0f;
-
-            // Normalize the vectors to ensure consistent speed in all directions
-            /* forward.Normalize();
-            right.Normalize(); */
 
             Vector3 forwardRelativeVerticalInput = moveInput.y * forward;
             Vector3 rightRelativeHorizontalInput = moveInput.x * right;
@@ -168,7 +151,7 @@ public class PlayerStateManager : MonoBehaviour
 
     public bool IsTryingToMove()
     {
-        if (moveDirection != Vector3.zero) {
+        if (moveDirectionRelativeToCamera != Vector3.zero) {
             return true;
         } else {
             return false;

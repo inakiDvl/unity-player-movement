@@ -14,9 +14,9 @@ public class PlayerIdleState : PlayerGroundedBaseState
         if (player.IsTryingToMove()) {
             player.ChangeState(player.playerWalkState);
         } else {
-            player.SetMoveDirection();
+            player.SetMoveDirectionRelativeToCamera();
             player.SetGravity();
-            player.ApplyMovement();
+            player.ApplyMovementRelativeToCamera();
         }
     }
 

@@ -13,12 +13,12 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-        player.ApplyMovement();
+        player.ApplyMovementRelativeToCamera();
         
         if (player.velocity < 0) {
             player.ChangeState(player.playerFallState);
         } else {
-            player.ApplyRotation();    
+            player.ApplyRotationRelativeToCamera();    
             player.SetGravity();
         }   
     }
