@@ -17,9 +17,9 @@ public class PlayerWalkState : PlayerGroundedBaseState
             player.ChangeState(player.playerRunState);
         } else {
             player.ApplyRotation();
-            player.SetMoveDirection();
+            player.SetMoveDirectionRelativeToCamera();
             player.SetGravity();
-            player.ApplyMovement();
+            player.ApplyMovementRelativeToCamera();
         }
     }
 

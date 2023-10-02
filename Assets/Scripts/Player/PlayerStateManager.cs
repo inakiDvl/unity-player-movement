@@ -27,9 +27,11 @@ public class PlayerStateManager : MonoBehaviour
     /* [SerializeField] private */ public float velocity;
 
     //          movement variables
+    public Camera playerCamera;
     [SerializeField] private CharacterController characterController;
     public Vector2 moveInput;
     public Vector3 moveDirection;
+    public Vector3 moveDirectionRelativeToCamera;
     private float rotationSpeed = 15f;
     public bool isRunPressed = false;
     #endregion
@@ -51,6 +53,8 @@ public class PlayerStateManager : MonoBehaviour
         if (currentState != playerFallState && velocity < gravity - 2f) {
             ChangeState(playerFallState);
         }
+
+        SetMoveDirectionRelativeToCamera();
     }
 
     #region     STATE MACHINE METHODS
@@ -66,7 +70,12 @@ public class PlayerStateManager : MonoBehaviour
 
     public void ApplyMovement()
     {
-        characterController.Move((moveDirection * speed + Vector3.up * velocity) * Time.deltaTime);
+        characterController.Move((moveDirection.normalized * speed + Vector3.up * velocity) * Time.deltaTime);
+    }
+
+    public void ApplyMovementRelativeToCamera()
+    {
+        characterController.Move((moveDirectionRelativeToCamera.normalized * speed + Vector3.up * velocity) * Time.deltaTime);
     }
 
     public void SetJumpVelocity()
@@ -101,6 +110,29 @@ public class PlayerStateManager : MonoBehaviour
             moveDirection.x = moveInput.x;
             moveDirection.z = moveInput.y;
         }
+    }
+
+    public void SetMoveDirectionRelativeToCamera()
+    {
+        if (IsGrounded()) {
+            // Get the camera's forward and right vectors
+            Vector3 forward = playerCamera.transform.forward;
+            Vector3 right = playerCamera.transform.right;
+
+            // Remove the vertical component to move only in the horizontal plane
+            forward.y = 0f;
+            right.y = 0f;
+
+            // Normalize the vectors to ensure consistent speed in all directions
+            /* forward.Normalize();
+            right.Normalize(); */
+
+            Vector3 forwardRelativeVerticalInput = moveInput.y * forward;
+            Vector3 rightRelativeHorizontalInput = moveInput.x * right;
+
+            moveDirectionRelativeToCamera = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
+        }
+        
     }
 
     public bool IsGrounded() 
