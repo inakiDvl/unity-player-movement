@@ -21,19 +21,15 @@ public class CameraLogic : MonoBehaviour
     #endregion
     
     private void Update() {
-        RotateCamera();
-        //RedRayCast();
-        //GreenRayCast();
-        //MoveCameraForward();
-        //ConstantRayCast();
-        CalculatePointsForRayCast();
-        if(DetectRayCastCollision()) {
-            Debug.Log("colision");
-        }
+       RotateCamera();
+       RedRayCast();
+       
+       MoveCameraForward();
     }
 
     private void LateUpdate() {
         MakeCameraFollowTarget();
+        GreenRayCast();
     }
     
     #region         CAMERA MOVEMENT METHODS
@@ -59,11 +55,11 @@ public class CameraLogic : MonoBehaviour
     #endregion
 
     #region         CAMERA COLLISION METHODS
-    /* public LayerMask rayCastLayerMask;
+    public LayerMask rayCastLayerMask;
     public bool drawRayCast = false;
     [SerializeField] private bool grenRayCastCollisionDetected;
     [SerializeField] private bool redRayCastCollisionDetected;
-    //float rayDistanceOffset = 0.1f;
+    float rayDistanceOffset = 0.1f;
 
     private void RedRayCast()
     {
@@ -108,46 +104,6 @@ public class CameraLogic : MonoBehaviour
         } else if (!grenRayCastCollisionDetected && !redRayCastCollisionDetected) {
             cameraDistanceToTarget = 7f;
         }
-    }
-
-    private float rayDistance;
-    private float rayDistanceOffset = 0.5f; */
-
-    private Vector3[] pointArray;
-    public LayerMask rayCastLayerMask;
-    public bool collisionDetected;
-
-    private void CalculatePointsForRayCast()
-    {
-        pointArray = new Vector3[5];
-
-        float z = Camera.main.nearClipPlane;
-        float x = Mathf.Tan(Camera.main.fieldOfView / 2f) * z;
-        float y = x / Camera.main.aspect;
-
-        pointArray[0] = (transform.rotation * new Vector3(-x, -y, z)) + transform.position; //top righ of the screen
-        pointArray[1] = (transform.rotation * new Vector3(-x, y, z)) + transform.position;  //bottom right of the screen
-        pointArray[2] = (transform.rotation * new Vector3(x, y, z)) + transform.position;   //top left of the screen
-        pointArray[3] = (transform.rotation * new Vector3(x, -y, z)) + transform.position;  //top left of the screen
-        pointArray[4] = transform.position;                                                 //top left of the screen
-    }
-
-    private bool DetectRayCastCollision()
-    {
-        Vector3 rayCastOrigin = cameraTarget.position;
-        float rayDistance = 8f;
-        collisionDetected = false;
-        for (int i = 0; i < pointArray.Length; i++) {
-            RaycastHit hit;
-            Vector3 rayCastDirection = (pointArray[i] - rayCastOrigin).normalized;
-            if (Physics.Raycast(rayCastOrigin, rayCastDirection, out hit, rayDistance, rayCastLayerMask)) {
-                return true;
-            }
-            Debug.DrawRay(cameraTarget.position, rayCastDirection * rayDistance, Color.red);
-        }
-        return false;
-    }
-
-
+    } 
     #endregion
 }
