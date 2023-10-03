@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 730481448}
   - component: {fileID: 730481453}
   - component: {fileID: 730481454}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ Transform:
   m_GameObject: {fileID: 730481446}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.58, y: 2.73, z: 3.23}
+  m_LocalPosition: {x: 4.58, y: 2.73, z: 28.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -639,7 +639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 827680404}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,7 +655,7 @@ Transform:
   m_GameObject: {fileID: 827680403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -825,7 +825,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -853,7 +853,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.35}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -873,6 +873,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 827680404}
   moveInput: {x: 0, y: 0}
+  rayCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  drawRayCast: 0
+  grenRayCastCollisionDetected: 0
+  redRayCastCollisionDetected: 0
 --- !u!1 &989380707
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1232,7 @@ GameObject:
   - component: {fileID: 1209750882}
   - component: {fileID: 1209750881}
   - component: {fileID: 1209750880}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
