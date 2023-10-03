@@ -28,7 +28,6 @@ public class PlayerStateManager : MonoBehaviour
 
     //          movement variables
     public Camera playerCamera;
-    public GameObject cameraPivot;
     private CameraLogic cameraLogic;
     public CharacterController characterController;
     private Vector2 moveInput;
@@ -39,7 +38,7 @@ public class PlayerStateManager : MonoBehaviour
     #endregion
 
     private void Awake() {  
-        cameraLogic = cameraPivot.GetComponent<CameraLogic>();                 
+        cameraLogic = playerCamera.GetComponent<CameraLogic>();                 
     }                       
 
     private void Start() {
@@ -136,7 +135,7 @@ public class PlayerStateManager : MonoBehaviour
 
     private void OnJump()
     {
-        if (currentState != playerJumpState && currentState is PlayerGroundedBaseState) {
+        if (currentState != playerJumpState && IsGrounded()) {
             ChangeState(playerJumpState);
         }
     }

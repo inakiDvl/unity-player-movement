@@ -6,15 +6,18 @@ using UnityEngine.InputSystem;
 public class CameraLogic : MonoBehaviour
 {
     #region         CAMERA RELATED VARIABLES
-    public GameObject cameraFollow;
-    private float cameraRotationSensivility = 200f;
-    private float cameraFollowSpeed = 100f;
-    
+    public Transform cameraTarget;
+    private float cameraHorizontalSensivility = 250f;
+    private float cameraVerticalSensivility = 200f;
+    private float cameraDistanceToTarget = 7f;
     public Vector2 moveInput;
-    public float inputX;
-    public float inputY;
-    public float rotationX;
-    public float rotationY;
+    private float inputX;
+    private float inputY;
+    private float rotationX;
+    private float rotationY;
+    private Vector3 currentRotation;
+    private Vector3 currentVelocity = Vector3.zero;
+    private float smoothTime = 0.05f;
     #endregion
     
     private void Update() {
@@ -27,22 +30,24 @@ public class CameraLogic : MonoBehaviour
     
     #region         CAMERA MOVEMENT METHODS
     private void RotateCamera() {
-        inputY = moveInput.x;
-        inputX = moveInput.y;
+        inputY = moveInput.x * cameraHorizontalSensivility * Time.deltaTime;
+        inputX = moveInput.y * cameraVerticalSensivility * Time.deltaTime;
         
-        rotationX += inputX * cameraRotationSensivility * Time.deltaTime;
-        rotationY += inputY * cameraRotationSensivility * Time.deltaTime;
+        rotationX += inputX;
+        rotationY += inputY;
 
         rotationX = Mathf.Clamp(rotationX, -30f, 60f);
         
-        Quaternion localRotation = Quaternion.Euler(rotationX, rotationY, 0f);
+        Vector3 targetRotation = new Vector3(rotationX, rotationY);
+        currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref currentVelocity, smoothTime);
 
-        transform.rotation = localRotation;
+        transform.localEulerAngles = currentRotation;
+        //transform.localEulerAngles = new Vector3(rotationX, rotationY, 0f);
     }
 
     private void MakeCameraFollowTarget() 
     {   
-        transform.position = Vector3.MoveTowards(transform.position, cameraFollow.transform.position, cameraFollowSpeed * Time.deltaTime);
+        transform.position = cameraTarget.position - transform.forward * cameraDistanceToTarget;
     }
     #endregion
 }
