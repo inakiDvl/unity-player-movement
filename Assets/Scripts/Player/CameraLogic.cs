@@ -17,19 +17,22 @@ public class CameraLogic : MonoBehaviour
     private float rotationY;
     private Vector3 currentRotation;
     private Vector3 currentVelocity = Vector3.zero;
-    private float smoothTime = 0.05f;
+    private float smoothTime = 0.05f;   
+    
+    //              collision related variables
+    [SerializeField] private LayerMask rayCastLayerMask;
+    private float rayDistanceOffset = 0.5f;
+    public bool drawRayCast = false;
     #endregion
     
     private void Update() {
-       RotateCamera();
-       RedRayCast();
-       
-       MoveCameraForward();
+        RotateCamera();
+        HandleCameraCollision();
+        MakeCameraFollowTarget();
     }
 
     private void LateUpdate() {
-        MakeCameraFollowTarget();
-        GreenRayCast();
+        
     }
     
     #region         CAMERA MOVEMENT METHODS
@@ -55,31 +58,7 @@ public class CameraLogic : MonoBehaviour
     #endregion
 
     #region         CAMERA COLLISION METHODS
-    public LayerMask rayCastLayerMask;
-    public bool drawRayCast = false;
-    [SerializeField] private bool grenRayCastCollisionDetected;
-    [SerializeField] private bool redRayCastCollisionDetected;
-    float rayDistanceOffset = 0.1f;
-
-    private void RedRayCast()
-    {
-        Vector3 rayCastOrigin = cameraTarget.position;
-        Vector3 rayCastDirection = (transform.position - rayCastOrigin).normalized;
-        float rayDistance = Vector3.Distance(cameraTarget.position, transform.position) + rayDistanceOffset;
-
-        RaycastHit hit;
-        if (Physics.Raycast(rayCastOrigin, rayCastDirection, out hit, rayDistance, rayCastLayerMask)) {
-            redRayCastCollisionDetected = true;
-        } else {
-            redRayCastCollisionDetected = false;
-        }
-
-        if (drawRayCast) {
-            Debug.DrawRay(rayCastOrigin, rayCastDirection * rayDistance, Color.red);
-        }
-    }
-
-    private void GreenRayCast()
+    private void HandleCameraCollision()
     {
         Vector3 rayCastOrigin = cameraTarget.position;
         Vector3 rayCastDirection = (transform.position - rayCastOrigin).normalized;
@@ -87,23 +66,16 @@ public class CameraLogic : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(rayCastOrigin, rayCastDirection, out hit, rayDistance, rayCastLayerMask)) {
-            grenRayCastCollisionDetected = true;
+            float distanceToCollision = hit.distance;
+            float distanceToAvoidCollision = cameraDistanceToTarget - distanceToCollision;
+            cameraDistanceToTarget = Mathf.Lerp(cameraDistanceToTarget, cameraDistanceToTarget - distanceToAvoidCollision, 10f * Time.deltaTime);
         } else {
-            grenRayCastCollisionDetected = false;
+            cameraDistanceToTarget = Mathf.Lerp(cameraDistanceToTarget, 7f, 10f * Time.deltaTime);
         }
 
         if (drawRayCast) {
             Debug.DrawRay(rayCastOrigin, rayCastDirection * rayDistance, Color.green);
         }
     }
-
-    private void MoveCameraForward() 
-    {
-        if (grenRayCastCollisionDetected && redRayCastCollisionDetected) {
-            cameraDistanceToTarget -= 0.05f;
-        } else if (!grenRayCastCollisionDetected && !redRayCastCollisionDetected) {
-            cameraDistanceToTarget = 7f;
-        }
-    } 
-    #endregion
+    #endregion      
 }

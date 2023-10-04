@@ -655,7 +655,7 @@ Transform:
   m_GameObject: {fileID: 827680403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -853,7 +853,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.35}
+  m_LocalPosition: {x: 0, y: 1.24, z: -3.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -873,6 +873,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 827680404}
   moveInput: {x: 0, y: 0}
+  rayCastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  collisionDetected: 0
+  drawRayCast: 0
 --- !u!1 &989380707
 GameObject:
   m_ObjectHideFlags: 0

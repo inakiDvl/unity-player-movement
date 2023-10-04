@@ -32,7 +32,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""1f216b13-9a78-48d4-a6f5-8470f37f4351"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -68,7 +68,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""28aaadbb-23f8-40dc-a585-61aaf01e5c51"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2,InvertVector2(invertX=false)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -211,7 +211,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""5c6cf613-9a10-4e7c-9123-292701d2f7bd"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""NormalizeVector2,InvertVector2(invertX=false)"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveCamera"",
                     ""isComposite"": false,
@@ -222,7 +222,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""b1515462-d6b1-49fc-83a9-7ba5c4df88a6"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": ""NormalizeVector2,InvertVector2(invertX=false)"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveCamera"",
                     ""isComposite"": false,

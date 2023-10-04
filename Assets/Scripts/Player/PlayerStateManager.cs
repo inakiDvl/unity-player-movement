@@ -31,7 +31,7 @@ public class PlayerStateManager : MonoBehaviour
     private CameraLogic cameraLogic;
     public CharacterController characterController;
     private Vector2 moveInput;
-    private Vector3 moveDirectionRelativeToCamera;
+    [SerializeField] private Vector3 moveDirectionRelativeToCamera;
     private float rotationSpeed = 15f;
     public bool isRunPressed = false;
 
@@ -72,7 +72,7 @@ public class PlayerStateManager : MonoBehaviour
     #region     MOVEMENT RELATED METHODS
     public void ApplyMovementRelativeToCamera()
     {
-        characterController.Move((moveDirectionRelativeToCamera.normalized * speed + Vector3.up * velocity) * Time.deltaTime);
+        characterController.Move((moveDirectionRelativeToCamera * speed + Vector3.up * velocity) * Time.deltaTime);
     }
 
     public void SetJumpVelocity()
