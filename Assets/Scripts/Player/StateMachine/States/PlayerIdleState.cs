@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerIdleState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
@@ -14,14 +10,12 @@ public class PlayerIdleState : PlayerBaseState
         if (player.IsTryingToMove()) {
             player.ChangeState(player.playerWalkState);
         } else {
+            //              movement related
             player.SetMoveDirectionRelativeToCamera();
             player.SetGravity();
             player.ApplyMovementRelativeToCamera();
+            //              other
+            player.InteractionArea();
         }
-    }
-
-    public override void ExitState(PlayerStateManager player)
-    {
-        //Debug.Log("exited idle state");
     }
 }

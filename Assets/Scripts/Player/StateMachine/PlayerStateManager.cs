@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms;
-using UnityEngine.UI;
 
-public class PlayerStateManager : MonoBehaviour
+public partial class PlayerStateManager : MonoBehaviour
 {
     #region     STATE MACHINE VARIABLES
     public PlayerBaseState currentState;
@@ -56,8 +54,6 @@ public class PlayerStateManager : MonoBehaviour
         if (currentState != playerFallState && velocity < gravity - 2f) {
             ChangeState(playerFallState);
         }
-
-        SetMoveDirectionRelativeToCamera();
     }
 
     #region     STATE MACHINE METHODS
@@ -118,7 +114,15 @@ public class PlayerStateManager : MonoBehaviour
 
             moveDirectionRelativeToCamera = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
         }
-        
+    }
+
+    public bool IsTryingToMove()
+    {
+        if (moveDirectionRelativeToCamera != Vector3.zero) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public bool IsGrounded() 
@@ -157,14 +161,12 @@ public class PlayerStateManager : MonoBehaviour
         cameraLogic.moveInput = inputValue.Get<Vector2>();
     }
 
-    public bool IsTryingToMove()
+    private void OnInteract()
     {
-        if (moveDirectionRelativeToCamera != Vector3.zero) {
-            return true;
-        } else {
-            return false;
+        if (closestInteractable != null) {
+            //closestInteractable.GetComponent<Interactable>().Interact();   
+            Debug.Log(closestInteractable);
         }
     }
-
     #endregion
 }

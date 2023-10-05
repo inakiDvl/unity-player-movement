@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerRunState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player)
@@ -14,15 +10,13 @@ public class PlayerRunState : PlayerBaseState
         if (!player.isRunPressed) {
             player.ChangeState(player.playerWalkState);
         } else {
+            //              movement related
             player.ApplyRotationRelativeToCamera();
             player.SetMoveDirectionRelativeToCamera();          
             player.SetGravity();
-            player.ApplyMovementRelativeToCamera(); 
+            player.ApplyMovementRelativeToCamera();
+            //              other
+            player.InteractionArea();
         }
-    }
-
-    public override void ExitState(PlayerStateManager player)
-    {
-
     }
 }
