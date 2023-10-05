@@ -3,7 +3,7 @@ using UnityEngine;
 public partial class PlayerStateManager
 {
     private float interactionAreaRadius = 1.2f;
-    [SerializeField] private Collider closestInteractable;
+    public Collider closestInteractable;
     [SerializeField] private LayerMask interactablesLayerMask;
     public void InteractionArea()
     {
