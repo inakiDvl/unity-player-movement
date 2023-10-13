@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 730481448}
   - component: {fileID: 730481453}
   - component: {fileID: 730481454}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +504,7 @@ CharacterController:
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &730481454
 MonoBehaviour:
@@ -518,6 +518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29561a9689b01984e997eec404f2f41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closestInteractable: {fileID: 0}
+  interactablesLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   speed: 5
   walkSpeed: 5
   runSpeed: 8
@@ -526,10 +530,6 @@ MonoBehaviour:
   characterController: {fileID: 730481453}
   moveDirectionRelativeToCamera: {x: 0, y: 0, z: 0}
   isRunPressed: 0
-  closestInteractable: {fileID: 0}
-  interactablesLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &820985170
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 827680404}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: CameraTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 827680403}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -978,15 +978,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 645bbfd00692cce41b4cfc53620aa1d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a85dfc5c85aef242bdd98ee465403aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 827680404}
   moveInput: {x: 0, y: 0}
+  currentRotation: {x: 0, y: 0, z: 0}
+  cameraRotation: {x: 0, y: 0, z: 0}
   rayCastLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  drawRayCast: 0
+  drawRayCast: 1
+  target: {fileID: 980456636}
 --- !u!1 &980456635
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1018,7 @@ Transform:
   m_GameObject: {fileID: 980456635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.03, z: 0}
+  m_LocalPosition: {x: -2.21, y: 1.96, z: -10.5}
   m_LocalScale: {x: 0.49, y: 0.49, z: 0.49}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1468,7 +1471,7 @@ GameObject:
   - component: {fileID: 1209750882}
   - component: {fileID: 1209750881}
   - component: {fileID: 1209750880}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}

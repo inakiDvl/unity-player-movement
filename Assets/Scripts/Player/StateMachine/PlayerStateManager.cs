@@ -26,7 +26,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     //          movement variables
     public Camera playerCamera;
-    private CameraLogic cameraLogic;
+    private CameraStateManager cameraStateManager;
     public CharacterController characterController;
     private Vector2 moveInput;
     [SerializeField] private Vector3 moveDirectionRelativeToCamera;
@@ -36,7 +36,7 @@ public partial class PlayerStateManager : MonoBehaviour
     #endregion
 
     private void Awake() {  
-        cameraLogic = playerCamera.GetComponent<CameraLogic>();                 
+        cameraStateManager = playerCamera.GetComponent<CameraStateManager>();                 
     }                       
 
     private void Start() {
@@ -158,7 +158,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     private void OnMoveCamera(InputValue inputValue)
     {
-        cameraLogic.moveInput = inputValue.Get<Vector2>();
+        cameraStateManager.moveInput = inputValue.Get<Vector2>();
     }
 
     private void OnInteract()

@@ -7,7 +7,7 @@ public class PlayerRunState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-        if (!player.isRunPressed) {
+        if (!player.isRunPressed || !player.IsTryingToMove()) {
             player.ChangeState(player.playerWalkState);
         } else {
             //              movement related
