@@ -14,11 +14,11 @@ public class CameraStateManager : MonoBehaviour
     public Vector2 moveInput;
     private float inputX;
     private float inputY;
-    private float rotationX;
-    private float rotationY;
-    public Vector3 currentRotation;
-    private Vector3 currentVelocity = Vector3.zero;
-    private float smoothTime = 10f;   
+    public float rotationX;
+    public float rotationY;
+    public Quaternion targetRotation;
+    //public Vector3 lastLockedRotation;
+    private float smoothTime = 10f; 
     
     //              collision related variables
     [SerializeField] private LayerMask rayCastLayerMask;
@@ -37,11 +37,9 @@ public class CameraStateManager : MonoBehaviour
         if (currentState != null) {
             currentState.UpdateState(this);
         }
-        currentRotation = Vector3.Lerp(currentRotation, targetRotation, smoothTime * Time.deltaTime);
     }
 
     #region         CAMERA MOVEMENT METHODS
-    Vector3 targetRotation;
     public void RotateCamera() {
         inputY = moveInput.x * cameraHorizontalSensivility * Time.deltaTime;
         inputX = moveInput.y * cameraVerticalSensivility * Time.deltaTime;
@@ -51,31 +49,29 @@ public class CameraStateManager : MonoBehaviour
 
         rotationX = Mathf.Clamp(rotationX, -30f, 60f);
 
-        /* Vector3 targetRotation = new Vector3(rotationX, rotationY);
-
-        currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref currentVelocity, smoothTime * Time.deltaTime);
-        transform.localEulerAngles = currentRotation; */
-
-        targetRotation = new Vector3(rotationX, rotationY);
-        
-        
-        transform.localEulerAngles = currentRotation;
-    }
+        targetRotation = Quaternion.Euler(rotationX, rotationY, 0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, smoothTime * Time.deltaTime);
+    }   
 
     public Transform target;
     public void RotateCameraArroundLockedTarget()
     {
         Vector3 targetDirection = target.position - transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-
+        
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, smoothTime * Time.deltaTime);
     }
 
-    float lerpedY = 0f;
+    private float cameraLerpedY = 0f;
     public void MakeCameraFollowTarget(float y) 
     {
-        lerpedY = Mathf.Lerp(lerpedY, y, 5f * Time.deltaTime);
-        transform.position = cameraTarget.position - transform.forward * cameraDistanceToTarget + Vector3.up * lerpedY;
+        cameraLerpedY = Mathf.Lerp(cameraLerpedY, y, 3f * Time.deltaTime);
+        transform.position = cameraTarget.position - transform.forward * cameraDistanceToTarget + Vector3.up * cameraLerpedY;
+    }
+
+    public void SetCameraZRotationToZero()
+    {
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
     }
     #endregion
 
