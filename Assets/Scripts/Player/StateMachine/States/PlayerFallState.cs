@@ -4,14 +4,14 @@ public class PlayerFallState : PlayerBaseState
     {
         if (player.IsGrounded()) {
             player.ChangeState(player.playerIdleState);
-        } else {
-            player.SetGravity();
-            player.ApplyMovementRelativeToCamera();
         }
+
+        player.SetGravity();
+        player.ApplyMovementRelativeToCamera();
     }
 
     public override void ExitState(PlayerStateManager player)
     {
-        player.SetGravity();
+        //player.SetGravity();
     }
 }
