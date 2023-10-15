@@ -9,6 +9,9 @@ public class CameraLockedState : CameraBaseState
         } else {
             camera.RotateCameraArroundLockedTarget();
             camera.MakeCameraFollowTarget(1f);
+            if (camera.playerStateManager.speed != camera.playerStateManager.runSpeed) {
+                camera.RotatePlayerTowardsLockedTarget();
+            }
         }
         base.UpdateState(camera);
     }

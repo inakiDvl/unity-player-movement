@@ -3,7 +3,6 @@ public class PlayerJumpState : PlayerBaseState
     public override void EnterState(PlayerStateManager player)
     {
         player.SetJumpVelocity();
-          
     }
 
     public override void UpdateState(PlayerStateManager player)

@@ -6,19 +6,16 @@ public class CameraStateManager : MonoBehaviour
     public CameraFreeState cameraFreeState = new CameraFreeState();
     public CameraLockedState cameraLockedState = new CameraLockedState();
 
-    #region         CAMERA RELATED VARIABLES
+    #region         VARIABLES
     public Transform cameraTarget;
     private float cameraHorizontalSensivility = 250f;
     private float cameraVerticalSensivility = 200f;
     private float cameraDistanceToTarget = 7f;
     public Vector2 moveInput;
-    private float inputX;
-    private float inputY;
     public float rotationX;
     public float rotationY;
-    public Quaternion targetRotation;
-    //public Vector3 lastLockedRotation;
-    private float smoothTime = 10f; 
+
+    private float smoothTime = 15f; 
     
     //              collision related variables
     [SerializeField] private LayerMask rayCastLayerMask;
@@ -41,32 +38,45 @@ public class CameraStateManager : MonoBehaviour
 
     #region         CAMERA MOVEMENT METHODS
     public void RotateCamera() {
-        inputY = moveInput.x * cameraHorizontalSensivility * Time.deltaTime;
-        inputX = moveInput.y * cameraVerticalSensivility * Time.deltaTime;
+        float inputY = moveInput.x * cameraHorizontalSensivility * Time.deltaTime;
+        float inputX = moveInput.y * cameraVerticalSensivility * Time.deltaTime;
         
         rotationX += inputX;
         rotationY += inputY;
 
         rotationX = Mathf.Clamp(rotationX, -30f, 60f);
 
-        targetRotation = Quaternion.Euler(rotationX, rotationY, 0f);
+        Quaternion targetRotation = Quaternion.Euler(rotationX, rotationY, 0f);
+        
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, smoothTime * Time.deltaTime);
     }   
 
     public Transform target;
+
     public void RotateCameraArroundLockedTarget()
     {
         Vector3 targetDirection = target.position - transform.position;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        Quaternion lockedTargetRotation = Quaternion.LookRotation(targetDirection);
         
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, smoothTime * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lockedTargetRotation, smoothTime * Time.deltaTime);
     }
 
-    private float cameraLerpedY = 0f;
-    public void MakeCameraFollowTarget(float y) 
+    public Transform playerTransform;
+    public PlayerStateManager playerStateManager;
+    public void RotatePlayerTowardsLockedTarget()
     {
-        cameraLerpedY = Mathf.Lerp(cameraLerpedY, y, 3f * Time.deltaTime);
-        transform.position = cameraTarget.position - transform.forward * cameraDistanceToTarget + Vector3.up * cameraLerpedY;
+        Vector3 directoToTarget = target.position - playerTransform.position;
+        directoToTarget = new Vector3(directoToTarget.x, 0f, directoToTarget.z);
+        Quaternion lockedTargetRotation = Quaternion.LookRotation(directoToTarget);
+        playerTransform.rotation = lockedTargetRotation;
+    }
+
+    private float lerpedCameraYOffset = 0f;
+    private float cameraYOffsetSmoothTime = 3f;
+    public void MakeCameraFollowTarget(float cameraYOffset)
+    {
+        lerpedCameraYOffset = Mathf.Lerp(lerpedCameraYOffset, cameraYOffset, cameraYOffsetSmoothTime * Time.deltaTime);
+        transform.position = cameraTarget.position - transform.forward * cameraDistanceToTarget + Vector3.up * lerpedCameraYOffset;
     }
 
     public void SetCameraZRotationToZero()
@@ -81,9 +91,10 @@ public class CameraStateManager : MonoBehaviour
         Vector3 rayCastOrigin = cameraTarget.position;
         Vector3 rayCastDirection = (transform.position - rayCastOrigin).normalized;
         float rayDistance = 7f + rayDistanceOffset;
-
+        
         RaycastHit hit;
-        if (Physics.Raycast(rayCastOrigin, rayCastDirection, out hit, rayDistance, rayCastLayerMask)) {
+        Ray raycast = new Ray(rayCastOrigin, rayCastDirection);
+        if (Physics.Raycast(raycast, out hit, rayDistance, rayCastLayerMask)) {
             float distanceToCollision = hit.distance;
             float distanceToAvoidCollision = cameraDistanceToTarget - distanceToCollision;
             cameraDistanceToTarget = Mathf.Lerp(cameraDistanceToTarget, cameraDistanceToTarget - distanceToAvoidCollision, 10f * Time.deltaTime);
